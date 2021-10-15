@@ -36,14 +36,31 @@ def define_status(dataset):
     :return: dict with results
     """
     order_num = dataset['order_number'].iloc[0]
-    if dataset['status'].counts.min() == dataset['status'].counts.max():
+
+    counts = dataset['status'].value_counts()
+
+    print('dataset -> \n', dataset)
+    print('len dataset -> \n', len(dataset))
+    print('counts -> \n', counts)
+    if (counts.min() == counts.max()) and (counts.min() + counts.max() != len(dataset)):
+        print('counts.min() == counts.max()')
+        print({'order_number': order_num, 'status': dataset['status'].iloc[0]})
         return {'order_number': order_num, 'status': dataset['status'].iloc[0]}
     else:
-        if 'PENDING' in dataset['status']:
+        # if 'PENDING' in dataset.status:
+        if dataset.status.isin(['PENDING']).any().any():
+            print('\n-- PENDING')
+            print({'order_number': order_num, 'status': 'PENDING'})
             return {'order_number': order_num, 'status': 'PENDING'}
-        elif 'SHIPPED' in dataset['status']:
+        # elif 'SHIPPED' in dataset.status:
+        elif dataset.status.isin(['SHIPPED']).any().any():
+            print('\n-- SHIPPED')
+            print({'order_number': order_num, 'status': 'SHIPPED'})
             return {'order_number': order_num, 'status': 'SHIPPED'}
-
+        else:
+            print('\n-- XXXX')
+            print({'order_number': order_num, 'status': 'NA'})
+            return {'order_number': order_num, 'status': 'NA'}
 
 def get_result(dataset=None):
     """
@@ -60,7 +77,10 @@ def get_result(dataset=None):
 
     res = []
     for order in unique_orders:
-        res.append(define_status(dataset(dataset['order_number'] == order)))
+        filter = data.order_number == order
+        filtered_df = data[filter]
+        status = define_status(filtered_df)
+        res.append(status)
 
     return res
 
