@@ -19,9 +19,9 @@ def gen_dataset():
 
 def get_result(dataset=None):
     """
-    Analize data an return a dict containing results
+    Analize data and return a dict containing results
     :param dataset (DataFrame): DataFrame containing info about weather
-    :return (Dict): Dataset containing dates and change data
+    :return (Dict): Dict containing dates and change data
     """
     if dataset is None:
         data = gen_dataset()

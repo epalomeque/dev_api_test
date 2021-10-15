@@ -68,6 +68,11 @@ def gen_dataset():
 
 
 def get_result(dataset=None):
+    """
+    Analize data and return a dict containing results
+    :param dataset (DataFrame): DataFrame containing info about order dates
+    :return (Dict): Dict containing records with seasons
+    """
     if dataset is None:
         data = gen_dataset()
     else:
