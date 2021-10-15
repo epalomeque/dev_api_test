@@ -28,9 +28,9 @@ def get_result(dataset=None):
     else:
         data = pd.DataFrame(data=dataset)
 
-    data["is_change"] = data["was_rainy"].shift(1, fill_value=data["was_rainy"].head(1)) != data["was_rainy"]
+    data["is_change"] = data["was_rainy"].shift(1) != data["was_rainy"]
 
-    data_filter = data["was_rainy"] and data["is_change"]
+    data_filter = data["was_rainy"] & data["is_change"]
 
     new_data = data.loc[data_filter]
     new_data.drop("is_change", axis=1, inplace=True)
